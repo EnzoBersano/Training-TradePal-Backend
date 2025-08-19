@@ -13,3 +13,36 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum PokemonType {
+  NORMAL
+  FIRE
+  WATER
+  GRASS
+  ELECTRIC
+  ICE
+  FIGHTING
+  POISON
+  GROUND
+  FLYING
+  PSYCHIC
+  BUG
+  ROCK
+  GHOST
+  DARK
+  DRAGON
+  STEEL
+  FAIRY
+}
+
+model Pokemon {
+  id        String       @id @default(uuid()) @db.Uuid
+  name      String       @unique
+  type      PokemonType
+  height    Float
+  weight    Float
+  imageUrl  String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
