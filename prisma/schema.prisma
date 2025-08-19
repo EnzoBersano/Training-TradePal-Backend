@@ -46,3 +46,8 @@ model Pokemon {
   updatedAt DateTime     @updatedAt
 }
 
+model Ability {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  pokemons  Pokemon[] @relation("PokemonAbilities")
+}
