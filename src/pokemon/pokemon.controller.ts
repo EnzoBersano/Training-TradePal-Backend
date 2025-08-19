@@ -37,5 +37,10 @@ export class PokemonController {
     findByAbility(@Query('ability') ability: string) {
         return this.pokemonService.findByAbility(ability);
     }
+
+    @Get('abilities')
+    getAbilities(@Query('name') name?: string) {
+        return this.pokemonService.getAbilitiesByName(name);
+    }
 }
 

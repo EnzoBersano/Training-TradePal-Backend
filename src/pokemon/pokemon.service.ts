@@ -56,10 +56,14 @@ export class PokemonService {
 
 
     async findByAbility(ability: string) {
-        // Assuming you have an Ability relation
+
         return this.prisma.pokemon.findMany({
             where: { abilities: { some: { name: ability } } },
         });
+    }
+    async getAbilitiesByName(name?: string) {
+        const where = name ? { name: { contains: name, mode: 'insensitive' } } : {};
+        return this.prisma.ability.findMany({ where });
     }
 }
 
