@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { Pokemon, Ability } from '../../generated/prisma';
-import { PrismaClientKnownRequestError } from '../../generated/prisma';
+import { PrismaClientKnownRequestError } from '../../generated/prisma/runtime/library';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { PaginationDto } from '../dto/pagination.dto';
