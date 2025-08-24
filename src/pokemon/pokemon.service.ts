@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { Pokemon, Ability, PrismaClientKnownRequestError } from '@prisma/client';
+import { Pokemon, Ability } from '../../generated/prisma';
+import { PrismaClientKnownRequestError } from '../../generated/prisma';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { PaginationDto } from '../dto/pagination.dto';
 import { IPokemonService } from './interfaces/pokemon-service.interface';
-import { IPokemonRepository, PaginatedResult } from './interfaces/pokemon-repository.interface';
-import { IAbilityRepository } from './interfaces/ability-repository.interface';
+import type { IPokemonRepository, PaginatedResult } from './interfaces/pokemon-repository.interface';
+import type { IAbilityRepository } from './interfaces/ability-repository.interface';
 
 @Injectable()
 export class PokemonService implements IPokemonService {

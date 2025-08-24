@@ -1,28 +1,56 @@
-import { IsOptional, IsNumberString, IsString, IsEnum } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { PokemonType } from '@prisma/client';
-import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { PokemonType } from '../../generated/prisma';
 
-export class PaginationDto {
-    @ApiPropertyOptional({ description: 'Page number (starting from 1)', default: 1 })
-    @IsOptional()
-    @Transform(({ value }) => parseInt(value))
-    @IsNumberString()
-    page?: string;
+export class AbilityResponseDto {
+    @ApiProperty()
+    id: number;
 
-    @ApiPropertyOptional({ description: 'Items per page (1-100)', default: 10 })
-    @IsOptional()
-    @Transform(({ value }) => parseInt(value))
-    @IsNumberString()
-    limit?: string;
+    @ApiProperty()
+    name: string;
+}
 
-    @ApiPropertyOptional({ description: 'Search by pokemon name (case insensitive)' })
-    @IsOptional()
-    @IsString()
-    search?: string;
+export class PokemonResponseDto {
+    @ApiProperty()
+    id: number;
 
-    @ApiPropertyOptional({ description: 'Filter by pokemon type', enum: PokemonType })
-    @IsOptional()
-    @IsEnum(PokemonType)
-    type?: PokemonType;
+    @ApiProperty()
+    name: string;
+
+    @ApiProperty({ enum: PokemonType })
+    type: PokemonType;
+
+    @ApiProperty()
+    height: number;
+
+    @ApiProperty()
+    weight: number;
+
+    @ApiProperty({ required: false })
+    imageUrl?: string;
+
+    @ApiProperty()
+    createdAt: Date;
+
+    @ApiProperty()
+    updatedAt: Date;
+
+    @ApiProperty({ type: [AbilityResponseDto], required: false })
+    abilities?: AbilityResponseDto[];
+}
+
+export class PaginatedPokemonResponseDto {
+    @ApiProperty({ type: [PokemonResponseDto] })
+    items: PokemonResponseDto[];
+
+    @ApiProperty()
+    total: number;
+
+    @ApiProperty()
+    page: number;
+
+    @ApiProperty()
+    limit: number;
+
+    @ApiProperty()
+    totalPages: number;
 }

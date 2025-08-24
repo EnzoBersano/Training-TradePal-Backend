@@ -1,6 +1,6 @@
 import { IsOptional, IsNumberString, IsString, IsEnum } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { PokemonType } from '@prisma/client';
+import { PokemonType } from '../../generated/prisma';
 import { Transform } from 'class-transformer';
 
 export class PaginationDto {

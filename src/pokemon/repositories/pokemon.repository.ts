@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Pokemon } from '@prisma/client';
+import { Pokemon } from '../../../generated/prisma';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreatePokemonDto } from '../../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../../dto/update-pokemon.dto';

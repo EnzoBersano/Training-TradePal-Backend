@@ -1,4 +1,4 @@
-import { Ability } from '@prisma/client';
+import { Ability } from '../../../generated/prisma';
 
 export interface IAbilityRepository {
     findAll(name?: string): Promise<Ability[]>;

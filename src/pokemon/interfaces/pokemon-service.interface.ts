@@ -1,4 +1,4 @@
-import { Pokemon, Ability } from '@prisma/client';
+import { Pokemon, Ability } from '../../../generated/prisma';
 import { CreatePokemonDto } from '../../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../../dto/update-pokemon.dto';
 import { PaginationDto } from '../../dto/pagination.dto';

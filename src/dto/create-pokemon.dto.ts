@@ -1,6 +1,6 @@
 import { IsString, IsNumber, IsOptional, MaxLength, IsUrl, Min, IsEnum } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { PokemonType } from '@prisma/client';
+import { PokemonType } from '../../generated/prisma';
 
 export class CreatePokemonDto {
     @ApiProperty({ description: 'Pokemon name', maxLength: 50 })

@@ -1,5 +1,4 @@
-
-import { Pokemon } from '@prisma/client';
+import { Pokemon } from '../../../generated/prisma';
 import { CreatePokemonDto } from '../../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../../dto/update-pokemon.dto';
 

@@ -11,7 +11,7 @@ import {
     HttpStatus
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { IPokemonService } from './interfaces/pokemon-service.interface';
+import type { IPokemonService } from './interfaces/pokemon-service.interface';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { PaginationDto } from '../dto/pagination.dto';
