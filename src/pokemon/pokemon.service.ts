@@ -60,8 +60,7 @@ export class PokemonService {
         return this.prisma.pokemon.findMany({
             where: { abilities: { some: { name: ability } } },
         });
-    }
-    async getAbilitiesByName(name?: string) {
+    }    async getAbilitiesByName(name?: string) {
         const where = name ? { name: { contains: name, mode: 'insensitive' } } : {};
         return this.prisma.ability.findMany({ where });
     }

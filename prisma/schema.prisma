@@ -36,18 +36,33 @@ enum PokemonType {
 }
 
 model Pokemon {
-  id        String       @id @default(uuid()) @db.Uuid
-  name      String       @unique
+  id        Int              @id @default(autoincrement())
+  name      String           @unique
   type      PokemonType
   height    Float
   weight    Float
   imageUrl  String?
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  abilities PokemonAbility[]
+
+  @@map("pokemons")
 }
 
 model Ability {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  pokemons  Pokemon[] @relation("PokemonAbilities")
+  id       Int              @id @default(autoincrement())
+  name     String           @unique
+  pokemons PokemonAbility[]
+
+  @@map("abilities")
+}
+
+model PokemonAbility {
+  pokemonId Int
+  abilityId Int
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+  ability   Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@id([pokemonId, abilityId])
+  @@map("pokemon_abilities")
 }

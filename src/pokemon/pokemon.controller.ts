@@ -26,7 +26,7 @@ export class PokemonController {
     @Patch('pokemons/:id')
     update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePokemonDto) {
         return this.pokemonService.update(id, dto);
-    }
+    }//usar promise await cuando hagamos estos
 
     @Delete('pokemons/:id')
     remove(@Param('id', ParseIntPipe) id: number) {
