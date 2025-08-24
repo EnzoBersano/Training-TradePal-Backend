@@ -1,68 +1,75 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Pokemon, Ability, PrismaClientKnownRequestError } from '@prisma/client';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
+import { PaginationDto } from '../dto/pagination.dto';
+import { IPokemonService } from './interfaces/pokemon-service.interface';
+import { IPokemonRepository, PaginatedResult } from './interfaces/pokemon-repository.interface';
+import { IAbilityRepository } from './interfaces/ability-repository.interface';
 
 @Injectable()
-export class PokemonService {
-    constructor(private prisma: PrismaService) {}
+export class PokemonService implements IPokemonService {
+    constructor(
+        private readonly pokemonRepository: IPokemonRepository,
+        private readonly abilityRepository: IAbilityRepository,
+    ) {}
 
-    async create(data: CreatePokemonDto) {
-        return this.prisma.pokemon.create({ data });
+    async create(data: CreatePokemonDto): Promise<Pokemon> {
+        try {
+            return await this.pokemonRepository.create(data);
+        } catch (error) {
+            if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+                throw new ConflictException('Pokemon with this name already exists');
+            }
+            throw error;
+        }
     }
 
-    async findAll(query: any) {
-        const page = parseInt(query.page) || 1;
-        const limit = parseInt(query.limit) || 10;
-        const skip = (page - 1) * limit;
-
-        const where: any = {};
-        if (query.search) {
-            where.name = { contains: query.search, mode: 'insensitive' };
-        }
-        if (query.type) {
-            where.type = { equals: query.type };
-        }
-
-        const [items, total] = await Promise.all([
-            this.prisma.pokemon.findMany({ where, skip, take: limit }),
-            this.prisma.pokemon.count({ where }),
-        ]);
-
-        return {
-            items,
-            total,
-            page,
-            limit,
-            totalPages: Math.ceil(total / limit),
+    async findAll(query: PaginationDto): Promise<PaginatedResult<Pokemon>> {
+        const filters = {
+            page: query.page ? parseInt(query.page) : 1,
+            limit: query.limit ? Math.min(parseInt(query.limit), 100) : 10,
+            search: query.search,
+            type: query.type,
         };
+
+        return this.pokemonRepository.findAll(filters);
     }
 
-    async findOne(id: number) {
-        const pokemon = await this.prisma.pokemon.findUnique({ where: { id } });
-        if (!pokemon) throw new NotFoundException('Pokemon not found');
+    async findOne(id: number): Promise<Pokemon> {
+        const pokemon = await this.pokemonRepository.findById(id);
+        if (!pokemon) {
+            throw new NotFoundException(`Pokemon with id ${id} not found`);
+        }
         return pokemon;
     }
 
-    async update(id: number, data: UpdatePokemonDto) {
+    async update(id: number, data: UpdatePokemonDto): Promise<Pokemon> {
+
         await this.findOne(id);
-        return this.prisma.pokemon.update({ where: { id }, data });
+
+        try {
+            return await this.pokemonRepository.update(id, data);
+        } catch (error) {
+            if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+                throw new ConflictException('Pokemon with this name already exists');
+            }
+            throw error;
+        }
     }
 
-    async remove(id: number) {
+    async remove(id: number): Promise<Pokemon> {
+
         await this.findOne(id);
-        return this.prisma.pokemon.delete({ where: { id } });
+
+        return this.pokemonRepository.delete(id);
     }
 
+    async findByAbility(abilityName: string): Promise<Pokemon[]> {
+        return this.pokemonRepository.findByAbility(abilityName);
+    }
 
-    async findByAbility(ability: string) {
-
-        return this.prisma.pokemon.findMany({
-            where: { abilities: { some: { name: ability } } },
-        });
-    }    async getAbilitiesByName(name?: string) {
-        const where = name ? { name: { contains: name, mode: 'insensitive' } } : {};
-        return this.prisma.ability.findMany({ where });
+    async getAbilitiesByName(name?: string): Promise<Ability[]> {
+        return this.abilityRepository.findAll(name);
     }
 }
-
