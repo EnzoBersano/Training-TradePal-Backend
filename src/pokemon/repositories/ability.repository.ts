@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Pokemon } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
-import { CreatePokemonDto } from '../../dtos/create-pokemon.dto';
-import { UpdatePokemonDto } from '../../dtos/update-pokemon.dto';
+import { CreatePokemonDto } from '../../dto/create-pokemon.dto';
+import { UpdatePokemonDto } from '../../dto/update-pokemon.dto';
 import { IPokemonRepository, PaginatedResult, PokemonFilters } from '../interfaces/pokemon-repository.interface';
 
 @Injectable()

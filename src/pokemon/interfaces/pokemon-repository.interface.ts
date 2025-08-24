@@ -1,7 +1,7 @@
 
 import { Pokemon } from '@prisma/client';
-import { CreatePokemonDto } from '../../dtos/create-pokemon.dto';
-import { UpdatePokemonDto } from '../../dtos/update-pokemon.dto';
+import { CreatePokemonDto } from '../../dto/create-pokemon.dto';
+import { UpdatePokemonDto } from '../../dto/update-pokemon.dto';
 
 export interface PaginatedResult<T> {
     items: T[];
