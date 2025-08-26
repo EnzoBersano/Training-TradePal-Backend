@@ -1,3 +1,0 @@
-//para hacer paginado hacer listquerydto donde pones todos los parametros para paginado
-//tambien se puede hacer un dto de pokemon response y hacerlo mas general similar a lo que habia hecho
-//pero hacer tambien un pokemondtopaginado que extienda esa clase general de paginado
