@@ -34,12 +34,12 @@ export class PokemonResponseDto {
     @ApiProperty()
     updatedAt: Date;
 
-    @ApiProperty({ type: [AbilityResponseDto], required: false })
+    @ApiProperty({ type: () => [AbilityResponseDto], required: false })
     abilities?: AbilityResponseDto[];
 }
 
 export class PaginatedPokemonResponseDto {
-    @ApiProperty({ type: [PokemonResponseDto] })
+    @ApiProperty({ type: () => [PokemonResponseDto] })
     items: PokemonResponseDto[];
 
     @ApiProperty()

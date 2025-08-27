@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, Inject } from '@nestjs/common';
 import { Pokemon, Ability } from '../../generated/prisma';
 import { PrismaClientKnownRequestError } from '../../generated/prisma/runtime/library';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
@@ -12,8 +12,8 @@ import type { IAbilityRepository } from './interfaces/ability-repository.interfa
 @Injectable()
 export class PokemonService implements IPokemonService {
     constructor(
-        private readonly pokemonRepository: IPokemonRepository,
-        private readonly abilityRepository: IAbilityRepository,
+        @Inject('IPokemonRepository') private readonly pokemonRepository: IPokemonRepository,
+        @Inject('IAbilityRepository') private readonly abilityRepository: IAbilityRepository,
     ) {}
 
     private mapToPokemonResponse(pokemon: any): PokemonResponseDto {
